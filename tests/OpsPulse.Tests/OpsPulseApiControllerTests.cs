@@ -15,6 +15,7 @@ public class OpsPulseApiControllerTests
     {
         await using var connection = new SqliteConnection("Data Source=:memory:");
         await using var db = await CreateSeededDbAsync(connection);
+
         var controller = new OpsPulseApiController(db);
 
         var result = await controller.GetHealthSummary();
@@ -28,6 +29,7 @@ public class OpsPulseApiControllerTests
     {
         await using var connection = new SqliteConnection("Data Source=:memory:");
         await using var db = await CreateSeededDbAsync(connection);
+
         var controller = new OpsPulseApiController(db);
 
         var result = await controller.ExportFailedJobs();
@@ -54,9 +56,11 @@ public class OpsPulseApiControllerTests
             LastStatus = "Failed",
             FailureMessage = "=HYPERLINK(\"http://example.local\")"
         });
+
         await db.SaveChangesAsync();
 
         var controller = new OpsPulseApiController(db);
+
         var result = await controller.ExportFailedJobs();
 
         var fileResult = Assert.IsType<FileContentResult>(result);
@@ -74,6 +78,7 @@ public class OpsPulseApiControllerTests
             .Options;
 
         var db = new AppDbContext(options);
+
         await db.Database.EnsureCreatedAsync();
         SeedData.Initialize(db);
 
