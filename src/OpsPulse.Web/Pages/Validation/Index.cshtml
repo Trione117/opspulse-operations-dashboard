@@ -1,0 +1,89 @@
+﻿@page
+@model OpsPulse.Web.Pages.Validation.IndexModel
+@{
+    ViewData["Title"] = "Validation Checklist";
+}
+
+<h1 class="mb-3">Migration / Release Validation Checklist</h1>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">Add Validation Task</div>
+    <div class="card-body">
+        <form method="post" asp-page-handler="Add" class="row g-3">
+            <div class="col-md-3">
+                <label asp-for="NewTask.SiteId" class="form-label">Site</label>
+                <select asp-for="NewTask.SiteId" class="form-select">
+                    @foreach (var site in Model.Sites)
+                    {
+                        <option value="@site.Id">@site.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="NewTask.TaskName" class="form-label"></label>
+                <input asp-for="NewTask.TaskName" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="NewTask.Category" class="form-label"></label>
+                <select asp-for="NewTask.Category" class="form-select">
+                    <option>Migration Readiness</option>
+                    <option>Post-Migration</option>
+                    <option>Release Validation</option>
+                    <option>Support Handoff</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Add Task</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-light">Validation Tasks</div>
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Site</th>
+                    <th>Task</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Validated By</th>
+                    <th>Validated UTC</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in Model.Tasks)
+                {
+                    <tr>
+                        <td>@task.Site?.Name</td>
+                        <td>@task.TaskName</td>
+                        <td>@task.Category</td>
+                        <td>
+                            @if (task.IsComplete)
+                            {
+                                <span class="badge bg-success">Complete</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">Pending</span>
+                            }
+                        </td>
+                        <td>@task.ValidatedBy</td>
+                        <td>@task.ValidatedUtc?.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>
+                            @if (!task.IsComplete)
+                            {
+                                <form method="post" asp-page-handler="Complete" asp-route-id="@task.Id">
+                                    <button type="submit" class="btn btn-sm btn-outline-success">Mark Complete</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

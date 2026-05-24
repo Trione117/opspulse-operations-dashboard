@@ -1,0 +1,35 @@
+﻿@page
+@model OpsPulse.Web.Pages.Runbook.IndexModel
+@{
+    ViewData["Title"] = "Support Runbook";
+}
+
+<div class="mb-4">
+    <h1 class="mb-2">Support Runbook</h1>
+    <p class="text-muted">
+        A short troubleshooting flow for reviewing failed maintenance jobs or post-change validation issues.
+        This page is intentionally simple, but it shows how operational process can be turned into application workflow.
+    </p>
+</div>
+
+<div class="row g-3">
+    @foreach (var step in Model.Steps)
+    {
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="badge bg-dark me-2">@step.Number</span>
+                        <h5 class="card-title mb-0">@step.Title</h5>
+                    </div>
+                    <p class="card-text text-muted">@step.Description</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="alert alert-info mt-4">
+    <strong>Developer note:</strong> In a production version, these checks would be backed by real data sources,
+    authentication, role-based access, and an audit trail.
+</div>

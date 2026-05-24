@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OpsPulse</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom box-shadow mb-4">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand fw-bold" asp-page="/Index">OpsPulse</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"><span class="navbar-toggler-icon"></span></button>
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Index">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Sites/Index">Sites</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Jobs/Index">Jobs</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Incidents/Index">Incidents</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Validation/Index">Validation</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Audit/Index">Audit</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Exports/Index">Exports/API</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Runbook/Index">Runbook</a></li>
+                    </ul>
+                    <span class="navbar-text text-light">Operational Health</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid px-4 pb-5"><main role="main">@RenderBody()</main></div>
+    <footer class="border-top footer text-muted bg-light"><div class="container-fluid px-4">OpsPulse - C# operations dashboard with EF Core, SQLite, API endpoints, CSV export, audit log, and tests.</div></footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

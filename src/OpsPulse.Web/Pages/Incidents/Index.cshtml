@@ -1,0 +1,64 @@
+﻿@page
+@model OpsPulse.Web.Pages.Incidents.IndexModel
+@{
+    ViewData["Title"] = "Incidents";
+}
+
+<h1 class="mb-1">Incidents</h1>
+<p class="text-muted">Track operational issues, severity, status, and follow-up notes.</p>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">Open New Incident</div>
+    <div class="card-body">
+        <form method="post" asp-page-handler="Add" class="row g-3">
+            <div class="col-md-3">
+                <label asp-for="NewIncident.SiteId" class="form-label">Site</label>
+                <select asp-for="NewIncident.SiteId" class="form-select">
+                    @foreach (var site in Model.Sites)
+                    {
+                        <option value="@site.Id">@site.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="NewIncident.Title" class="form-label"></label>
+                <input asp-for="NewIncident.Title" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="NewIncident.Severity" class="form-label"></label>
+                <select asp-for="NewIncident.Severity" class="form-select">
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                    <option>Critical</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Open Incident</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-light">Incident Register</div>
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead><tr><th>Site</th><th>Title</th><th>Severity</th><th>Status</th><th>Detected UTC</th><th></th></tr></thead>
+            <tbody>
+                @foreach (var incident in Model.Incidents)
+                {
+                    var statusBadge = incident.Status == "Resolved" ? "success" : incident.Status == "Investigating" ? "warning" : "primary";
+                    <tr>
+                        <td>@incident.Site?.Name</td>
+                        <td>@incident.Title</td>
+                        <td><span class="badge bg-@Model.SeverityBadge(incident.Severity)">@incident.Severity</span></td>
+                        <td><span class="badge bg-@statusBadge">@incident.Status</span></td>
+                        <td>@incident.DetectedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td><a class="btn btn-sm btn-outline-primary" asp-page="/Incidents/Details" asp-route-id="@incident.Id">Details</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

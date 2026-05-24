@@ -1,0 +1,86 @@
+﻿@page
+@model OpsPulse.Web.Pages.Jobs.IndexModel
+@{
+    ViewData["Title"] = "Maintenance Jobs";
+}
+
+<h1 class="mb-3">Maintenance Jobs</h1>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">Add Maintenance Job</div>
+    <div class="card-body">
+        <form method="post" asp-page-handler="Add" class="row g-3">
+            <div class="col-md-2">
+                <label asp-for="NewJob.SiteId" class="form-label">Site</label>
+                <select asp-for="NewJob.SiteId" class="form-select">
+                    @foreach (var site in Model.Sites)
+                    {
+                        <option value="@site.Id">@site.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="NewJob.JobName" class="form-label"></label>
+                <input asp-for="NewJob.JobName" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="NewJob.JobType" class="form-label"></label>
+                <select asp-for="NewJob.JobType" class="form-select">
+                    <option>Backup</option>
+                    <option>Copy Offsite</option>
+                    <option>Cleanup</option>
+                    <option>Validation</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="NewJob.LastStatus" class="form-label"></label>
+                <select asp-for="NewJob.LastStatus" class="form-select">
+                    <option>Succeeded</option>
+                    <option>Warning</option>
+                    <option>Failed</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label asp-for="NewJob.FailureMessage" class="form-label"></label>
+                <input asp-for="NewJob.FailureMessage" class="form-control" />
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-light">Job History</div>
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Site</th>
+                    <th>Job</th>
+                    <th>Type</th>
+                    <th>Last Run UTC</th>
+                    <th>Status</th>
+                    <th>Health</th>
+                    <th>Failure Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var job in Model.Jobs)
+                {
+                    var health = Model.GetHealth(job.LastRunUtc, job.LastStatus);
+                    <tr>
+                        <td>@job.Site?.Name</td>
+                        <td>@job.JobName</td>
+                        <td>@job.JobType</td>
+                        <td>@job.LastRunUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@job.LastStatus</td>
+                        <td><span class="badge bg-@Model.GetBadgeCss(health)">@health</span></td>
+                        <td>@job.FailureMessage</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

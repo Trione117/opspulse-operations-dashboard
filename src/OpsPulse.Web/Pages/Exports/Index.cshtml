@@ -1,0 +1,15 @@
+﻿@page
+@model OpsPulse.Web.Pages.Exports.IndexModel
+@{
+    ViewData["Title"] = "Exports and API";
+}
+<h1 class="mb-3">Exports and API</h1>
+<p class="text-muted">These links demonstrate reporting, automation, and integration paths.</p>
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100"><div class="card-header bg-light">CSV Exports</div><div class="card-body"><div class="d-grid gap-2"><a class="btn btn-outline-primary" href="/api/export/failed-jobs.csv">Download failed/warning jobs CSV</a><a class="btn btn-outline-primary" href="/api/export/incidents.csv">Download incidents CSV</a></div></div></div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100"><div class="card-header bg-light">API Endpoints</div><div class="card-body"><ul><li><a href="/api/health/summary">/api/health/summary</a></li><li><a href="/api/incidents/open">/api/incidents/open</a></li><li><a href="/api/jobs/failed">/api/jobs/failed</a></li><li><a href="/api/audit/recent">/api/audit/recent</a></li></ul></div></div>
+    </div>
+</div>

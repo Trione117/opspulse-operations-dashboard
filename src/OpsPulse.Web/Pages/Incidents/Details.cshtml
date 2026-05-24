@@ -1,0 +1,74 @@
+﻿@page "{id:int}"
+@model OpsPulse.Web.Pages.Incidents.DetailsModel
+@{
+    ViewData["Title"] = "Incident Details";
+}
+
+<div class="mb-3"><a asp-page="/Incidents/Index" class="btn btn-sm btn-outline-secondary">Back to Incidents</a></div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">Incident Details</div>
+    <div class="card-body">
+        <h2 class="h4">@Model.Incident.Title</h2>
+        <div class="row mt-3">
+            <div class="col-md-3"><strong>Site:</strong> @Model.Incident.Site?.Name</div>
+            <div class="col-md-3"><strong>Severity:</strong> <span class="badge bg-@Model.SeverityBadge()">@Model.Incident.Severity</span></div>
+            <div class="col-md-3"><strong>Status:</strong> @Model.Incident.Status</div>
+            <div class="col-md-3"><strong>Priority Score:</strong> @Model.PriorityScore()</div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-4"><strong>Detected UTC:</strong> @Model.Incident.DetectedAtUtc.ToString("yyyy-MM-dd HH:mm")</div>
+            <div class="col-md-4"><strong>Resolved UTC:</strong> @Model.Incident.ResolvedAtUtc?.ToString("yyyy-MM-dd HH:mm")</div>
+            <div class="col-md-4"><strong>Created By:</strong> @Model.Incident.CreatedBy</div>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.Incident.RootCause) || !string.IsNullOrWhiteSpace(Model.Incident.ResolutionSummary))
+        {
+            <hr />
+            <p><strong>Root Cause:</strong> @Model.Incident.RootCause</p>
+            <p><strong>Resolution:</strong> @Model.Incident.ResolutionSummary</p>
+        }
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-7">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">Timeline</div>
+            <div class="card-body">
+                @foreach (var entry in Model.Incident.TimelineEntries.OrderByDescending(t => t.EventTimeUtc))
+                {
+                    <div class="border-bottom pb-2 mb-2">
+                        <div class="d-flex justify-content-between"><strong>@entry.EventType</strong><span class="text-muted">@entry.EventTimeUtc.ToString("yyyy-MM-dd HH:mm") UTC</span></div>
+                        <div>@entry.Note</div>
+                        <div class="text-muted small">By @entry.CreatedBy</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">Add Timeline Note</div>
+            <div class="card-body">
+                <form method="post" asp-page-handler="AddTimeline" asp-route-id="@Model.Incident.Id">
+                    <div class="mb-3"><label asp-for="EventType" class="form-label"></label><select asp-for="EventType" class="form-select"><option>Update</option><option>Triage</option><option>Escalation</option><option>Customer Update</option><option>Validation</option></select></div>
+                    <div class="mb-3"><label asp-for="TimelineNote" class="form-label">Note</label><textarea asp-for="TimelineNote" class="form-control" rows="4"></textarea></div>
+                    <button type="submit" class="btn btn-primary">Add Note</button>
+                </form>
+            </div>
+        </div>
+        @if (Model.Incident.Status != "Resolved")
+        {
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">Resolve Incident</div>
+                <div class="card-body">
+                    <form method="post" asp-page-handler="Resolve" asp-route-id="@Model.Incident.Id">
+                        <div class="mb-3"><label asp-for="RootCause" class="form-label"></label><textarea asp-for="RootCause" class="form-control" rows="3"></textarea></div>
+                        <div class="mb-3"><label asp-for="ResolutionSummary" class="form-label"></label><textarea asp-for="ResolutionSummary" class="form-control" rows="3"></textarea></div>
+                        <button type="submit" class="btn btn-success">Mark Resolved</button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>

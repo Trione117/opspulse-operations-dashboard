@@ -1,0 +1,76 @@
+﻿@page
+@model OpsPulse.Web.Pages.Sites.IndexModel
+@{
+    ViewData["Title"] = "Sites";
+}
+
+<h1 class="mb-3">Sites / Server Sets</h1>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">Add Site</div>
+    <div class="card-body">
+        <form method="post" asp-page-handler="Add" class="row g-3">
+            <div class="col-md-2">
+                <label asp-for="NewSite.Name" class="form-label"></label>
+                <input asp-for="NewSite.Name" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="NewSite.AppServer" class="form-label"></label>
+                <input asp-for="NewSite.AppServer" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="NewSite.DatabaseServer" class="form-label"></label>
+                <input asp-for="NewSite.DatabaseServer" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="NewSite.Environment" class="form-label"></label>
+                <select asp-for="NewSite.Environment" class="form-select">
+                    <option>Production</option>
+                    <option>Test</option>
+                    <option>Development</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="NewSite.Status" class="form-label"></label>
+                <select asp-for="NewSite.Status" class="form-select">
+                    <option>Healthy</option>
+                    <option>Warning</option>
+                    <option>Critical</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Add Site</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-light">Current Sites</div>
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>App Server</th>
+                    <th>Database Server</th>
+                    <th>Environment</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var site in Model.Sites)
+                {
+                    var badge = site.Status == "Critical" ? "danger" : site.Status == "Warning" ? "warning" : "success";
+                    <tr>
+                        <td>@site.Name</td>
+                        <td>@site.AppServer</td>
+                        <td>@site.DatabaseServer</td>
+                        <td>@site.Environment</td>
+                        <td><span class="badge bg-@badge">@site.Status</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
