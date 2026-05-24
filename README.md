@@ -1,10 +1,16 @@
 ﻿# OpsPulse
 
-OpsPulse is an ASP.NET Core operations dashboard for tracking application support activity across multiple sample sites.
+OpsPulse is a sample ASP.NET Core operations dashboard that models a common internal support workflow: tracking supported sites, recurring maintenance jobs, open incidents, validation tasks, audit activity, and exportable reporting data.
 
-The project is built around a common internal tooling problem: support teams need a quick way to see failed jobs, open incidents, pending validation work, and recent health check results without digging through multiple disconnected sources.
+The app uses local SQLite and seeded sample data so it can be cloned and run without access to any internal system.
 
-All data in this repository is sample data.
+## What this project demonstrates
+
+- Building a data-backed ASP.NET Core Razor Pages application
+- Modeling operational workflows with Entity Framework Core
+- Exposing simple JSON API endpoints and CSV exports
+- Writing unit and controller-level tests for core behavior
+- Using GitHub Actions to build and test the solution
 
 ## Features
 
@@ -20,7 +26,7 @@ All data in this repository is sample data.
 - CSV exports
 - JSON API endpoints
 - SQL reporting examples
-- Unit tests
+- xUnit tests
 - GitHub Actions build/test workflow
 
 ## Technology
@@ -63,12 +69,12 @@ After `dotnet run` starts, open the localhost URL shown in the terminal.
 
 After starting the app, these endpoints can be opened in the browser:
 
-- /api/health/summary
-- /api/incidents/open
-- /api/jobs/failed
-- /api/audit/recent
-- /api/export/failed-jobs.csv
-- /api/export/incidents.csv
+- `/api/health/summary`
+- `/api/incidents/open`
+- `/api/jobs/failed`
+- `/api/audit/recent`
+- `/api/export/failed-jobs.csv`
+- `/api/export/incidents.csv`
 
 ## Screenshots
 
@@ -98,21 +104,29 @@ After starting the app, these endpoints can be opened in the browser:
 
 ## Repository layout
 
-- src/OpsPulse.Web - web application
-- tests/OpsPulse.Tests - unit tests
-- docs - project notes and review material
-- sql - reporting query examples
-- .github/workflows - GitHub Actions build/test workflow
+- `src/OpsPulse.Web` - web application
+- `tests/OpsPulse.Tests` - unit and controller-level tests
+- `docs` - design notes, API notes, backlog, and manual test checklist
+- `sql` - reporting query examples
+- `.github/workflows` - GitHub Actions build/test workflow
 
-## Notes
+## Design decisions
 
-This project uses generic sample data only. It does not contain production data, credentials, real logs, internal hostnames, internal IP addresses, or sensitive information.
+- Razor Pages keeps each workflow screen close to its page handlers.
+- SQLite keeps the project self-contained for local review.
+- EF Core keeps the data access pattern portable if the app later moves to SQL Server.
+- Seeded sample data makes the dashboard usable immediately after startup.
 
-## Planned improvements
+## Sample data notice
 
-- Add authentication and role-based authorization
-- Add edit/delete actions for more records
-- Add a SQL Server provider option
-- Add import workflow for job history
-- Add real endpoint health checks
-- Add deployment documentation
+OpsPulse is intentionally self-contained. It uses seeded sample data and a local SQLite database. It does not connect to production systems, internal networks, live services, or real operational logs.
+
+## Future improvements
+
+The current version focuses on core workflow and data-backed UI behavior. Next improvements would be:
+
+- Authentication and role-based access for different support roles
+- Input models for create/update workflows
+- Filtering by site, status, and date range
+- EF Core migrations and optional SQL Server provider support
+- Import workflow for external job history

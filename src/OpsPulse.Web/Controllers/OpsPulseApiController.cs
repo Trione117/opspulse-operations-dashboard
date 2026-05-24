@@ -98,8 +98,14 @@ public class OpsPulseApiController : ControllerBase
 
     private static string Csv(string? value)
     {
-        value ??= "";
+        value ??= string.Empty;
         value = value.Replace("\"", "\"\"");
+
+        if (value.Length > 0 && "=+-@\t\r\n".Contains(value[0]))
+        {
+            value = "'" + value;
+        }
+
         return $"\"{value}\"";
     }
 }

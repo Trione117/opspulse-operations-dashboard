@@ -492,3 +492,9 @@ src/OpsPulse.Web/*.db-wal
 src/OpsPulse.Web/*.db
 src/OpsPulse.Web/*.db-shm
 src/OpsPulse.Web/*.db-wal
+# Local SQLite demo database files
+*.db
+*.db-shm
+*.db-wal
+# Local cleanup-script backups
+.opspulse-cleanup-backup/
