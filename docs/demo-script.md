@@ -10,7 +10,7 @@ Point out:
 - stale jobs
 - open incidents
 - pending validation checks
-- recent health check results
+- recent health summary results
 
 ## 2. Incidents
 

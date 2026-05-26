@@ -25,5 +25,5 @@ The project includes JSON endpoints and CSV exports so operational data can be c
 - No authentication yet
 - No role-based authorization yet
 - No SQL Server deployment profile yet
-- Health checks are simulated
+- Health summaries are simulated
 - Edit/delete workflows are intentionally limited in this version

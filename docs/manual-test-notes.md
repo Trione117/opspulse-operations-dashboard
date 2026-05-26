@@ -8,7 +8,7 @@ Use this checklist after making changes.
 - Confirm the dashboard loads.
 - Confirm failed jobs and stale jobs display.
 - Confirm open incidents display.
-- Confirm recent health checks display.
+- Confirm recent health summary display.
 
 ## Sites
 

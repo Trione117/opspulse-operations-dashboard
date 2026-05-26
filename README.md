@@ -22,7 +22,7 @@ The app uses local SQLite and seeded sample data so it can be cloned and run wit
 - Incident resolution workflow
 - Validation checklist
 - Audit log
-- Synthetic health check results
+- Health summary API endpoint
 - CSV exports
 - JSON API endpoints
 - SQL reporting examples
