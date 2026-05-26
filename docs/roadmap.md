@@ -1,4 +1,4 @@
-﻿# Roadmap
+# Roadmap
 
 OpsPulse is currently a self-contained sample operations dashboard. The first version focuses on core workflow, data-backed pages, reporting exports, and testable business rules.
 

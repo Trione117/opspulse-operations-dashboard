@@ -1,4 +1,4 @@
-﻿# OpsPulse
+# OpsPulse
 
 OpsPulse is a sample ASP.NET Core operations dashboard that models a common internal support workflow: tracking supported sites, recurring maintenance jobs, open incidents, validation tasks, audit activity, and exportable reporting data.
 

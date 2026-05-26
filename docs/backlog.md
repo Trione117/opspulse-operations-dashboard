@@ -1,4 +1,4 @@
-﻿# Backlog
+# Backlog
 
 ## High value next items
 

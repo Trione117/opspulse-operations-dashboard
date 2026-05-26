@@ -1,4 +1,4 @@
-﻿# Design Notes
+# Design Notes
 
 ## Razor Pages
 
